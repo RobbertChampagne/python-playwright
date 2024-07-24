@@ -52,3 +52,35 @@ pip install pytest-playwright
 ```Bash
 playwright install
 ```
+
+### sync VS async:
+Playwright provides two API variations to accommodate different programming styles and project requirements: <br>
+synchronous (sync) and asynchronous (async). <br>
+The choice between using the synchronous or asynchronous API depends on your project's context, especially regarding its concurrency model.
+
+**Synchronous API**<br>
+- **Usage**: The synchronous API is straightforward to use, <br>
+especially in scripts or test frameworks that do not natively support asynchronous execution, like pytest (without additional plugins).<br>
+- **How it works**: It blocks the execution of your script at each operation until the operation completes.<br>
+This means that when you navigate to a page, click a button, or retrieve an element from the page, <br>
+your code waits for the operation to finish before moving to the next line.<br>
+- **Test Frameworks**: It's commonly used with pytest for testing because pytest's standard operation is synchronous.<br>
+However, pytest can run asynchronous code with the help of plugins like pytest-asyncio.
+
+**Asynchronous API**<br>
+- **Usage**: The asynchronous API is designed for use in asynchronous environments,<br>
+particularly when working with Python's asyncio library. <br>
+It's beneficial in scenarios where you want to perform non-blocking operations or handle multiple I/O-bound tasks concurrently.<br>
+- **How it works**: It allows your code to be non-blocking and perform other tasks while waiting for an operation to complete. <br>
+This is achieved using the async and await syntax in Python, <br>
+which enables the efficient management of I/O-bound and high-level structured network code.<br>
+- **Test Frameworks**: For testing asynchronous code, you would typically use pytest with an async plugin like pytest-asyncio,<br> which allows pytest to run async test functions.
+
+**Key Differences**
+- **Concurrency Model**: The sync API is blocking and runs operations sequentially, <br>
+while the async API is non-blocking and can run operations concurrently, <br>
+making it more efficient for I/O-bound tasks.<br>
+- **Syntax**: Sync API uses regular function calls, <br>
+while async API requires functions to be awaited within an async function.<br>
+- **Compatibility**: Sync API is simpler to use with frameworks that do not natively support async/await, <br>
+whereas the async API is preferable in modern Python projects that leverage asyncio for concurrency.-
