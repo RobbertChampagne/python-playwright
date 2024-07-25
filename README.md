@@ -83,4 +83,41 @@ making it more efficient for I/O-bound tasks.<br>
 - **Syntax**: Sync API uses regular function calls, <br>
 while async API requires functions to be awaited within an async function.<br>
 - **Compatibility**: Sync API is simpler to use with frameworks that do not natively support async/await, <br>
-whereas the async API is preferable in modern Python projects that leverage asyncio for concurrency.-
+whereas the async API is preferable in modern Python projects that leverage asyncio for concurrency.
+
+### Project setup
+
+`\pytest.ini`<br>
+The pytest.ini file serves as a configuration file for pytest, allowing you to set default options for your test runs. <br> When pytest runs, it automatically reads options from the pytest.ini file,<br> so any options specified there apply to all test runs without needing to be explicitly included in the command line each time.
+```Python
+[pytest]
+addopts =
+    --html=report.html
+    --browser=firefox
+    --headed
+    --tracing on
+```
+
+`\tests\conftest.py`<br>
+The conftest.py file is a special pytest module that contains fixture functions, hooks, and other configurations that apply to multiple test files.<br> Pytest automatically recognizes this file and applies its contents to the tests in the same directory and subdirectories.
+```Python
+import pytest
+from playwright.sync_api import Page
+from pom.main_page import MainPage
+
+# scope='session' means that the fixture is called once per test session.
+# If you don't specify a scope, the fixture will be called once per test function.
+@pytest.fixture(scope="function")
+def navigate_to_main_page(page: Page):
+    main_page = MainPage(page)
+    main_page.navigate()
+    yield main_page  # This allows the test to use the main_page object
+```
+
+`\config\playwright_config.py`<br>
+The playwright_config.py file, contains configuration settings for Playwright tests.<br>
+```Python
+config = {
+    "base_url": "https://robbertchampagne.com/",
+}
+```

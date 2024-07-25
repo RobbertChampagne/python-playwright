@@ -4,13 +4,13 @@ from config import playwright_config
 class MainPage:
     def __init__(self, page):
         self.page = page
-        self.mediahuisProject = page.locator('div').filter(has_text='Mediahuis Publishing Studio')
+        self.mediahuisProject = page.locator('div').filter(has_text='Mediahuis Publishing Studio').first
         self.mediahuisProjectLink = page.locator('#projects').get_by_role('link')
         self.mediahuisProjectText = page.get_by_role('heading', name= 'Mediahuis') 
-        self.iOProject = page.locator('div').filter( has_text= 'iO A end-to-end agency for') 
+        self.iOProject = page.locator('div').filter( has_text= 'iO A end-to-end agency for').first 
         self.iOProjectLink = page.locator('#projects').get_by_role('link') 
         self.iOProjectText = page.get_by_role('heading', name= 'iO', exact= True) 
-        self.responsumProject = page.locator('div').filter( has_text= 'Responsum T&M A software') 
+        self.responsumProject = page.locator('div').filter( has_text= 'Responsum T&M A software').first 
         self.responsumProjectLink = page.locator('#projects').get_by_role('link')
         self.responsumProjectText= page.get_by_role('heading', name= 'Responsum T&M') 
         self.linkedinLink = page.get_by_role('link', name= 'Linkedin') 
@@ -28,7 +28,8 @@ class MainPage:
         self.logo = page.locator('#logo').get_by_role('link') 
         self.connectWithMeButton = page.get_by_role('link', name= 'Connect With Me') 
         self.contactEmailLink = page.get_by_role('link', name= 'robbert.champagne1@gmail.com') 
-
+        self.navbar = page.get_by_role("navigation")
+        
     def navigate(self):
         self.page.goto(playwright_config.config["base_url"])
 
