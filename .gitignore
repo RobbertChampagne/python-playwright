@@ -53,6 +53,7 @@ cover/
 report.html
 /assets/style.css
 /test-results
+/screenshots
 
 # Translations
 *.mo

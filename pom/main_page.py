@@ -29,7 +29,7 @@ class MainPage:
         self.connectWithMeButton = page.get_by_role('link', name= 'Connect With Me') 
         self.contactEmailLink = page.get_by_role('link', name= 'robbert.champagne1@gmail.com') 
         self.navbar = page.get_by_role("navigation")
-        
+
     def navigate(self):
         self.page.goto(playwright_config.config["base_url"])
 
