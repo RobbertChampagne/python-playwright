@@ -201,8 +201,8 @@ The function takes four arguments:
 
     The `_` is used to ignore the first return value of the `cv2.threshold` function.
     `cv2.threshold` returns two values:<br>
-    1. The threshold value that was used (which is 30 in this case).<br>
-    2. The thresholded image (`thresh_diff`).<br>
+    - The threshold value that was used (which is 30 in this case).<br>
+    - The thresholded image (`thresh_diff`).<br>
     
     Since the threshold value is not needed in this context, it is common practice to use `_` as a placeholder to indicate that this value is intentionally being ignored.<br>
     This makes the code cleaner and more readable.
