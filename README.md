@@ -189,7 +189,9 @@ The resulting `gray_diff` image is a single-channel image where each pixel value
     gray_diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
     ```
 
-- Threshold the grayscale difference image. `cv2.threshold()` converts a grayscale image to a binary image. The function takes four arguments:
+- Threshold the grayscale difference image.<br>
+`cv2.threshold()` converts a grayscale image to a binary image.<br>
+The function takes four arguments:
     - The source image (`gray_diff`).
     - The threshold value (30 in this case).
     - The maximum value to use with the `THRESH_BINARY` thresholding type (255 in this case).
