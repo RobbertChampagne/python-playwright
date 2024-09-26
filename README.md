@@ -5,7 +5,7 @@
 This repository provides a comprehensive toolkit for automating web interactions and visual regression testing using Playwright and Python. It includes scripts and configurations for setting up virtual environments, installing necessary dependencies, and running tests with both synchronous and asynchronous APIs.
 
 ### Features
-- **Virtual Environment Setup**: Instructions for creating and managing Conda environments.
+- **Virtual Environment Setup**: Instructions for creating and managing environments.
 - **Playwright Installation**: Steps to install Playwright and its dependencies.
 - **Sync vs Async APIs**: Detailed explanation of synchronous and asynchronous Playwright APIs.
 - **Project Configuration**: Sample configurations for pytest and Playwright.
@@ -13,6 +13,39 @@ This repository provides a comprehensive toolkit for automating web interactions
 
 Follow the detailed steps in this README to set up and use the tools provided in this repository.
 
+---
+
+### Virtual Environment:
+
+**Run the following command to create a virtual environment:**
+```Bash
+python -m venv pythonenv
+```
+
+**Activate the Virtual Environment:**
+```Bash
+pythonenv\Scripts\activate
+```
+
+**Install Packages:**
+```Bash
+pip install package_name
+```
+
+**Deactivate the Virtual Environment:**
+```Bash
+deactivate
+```
+
+**Export the installed packages to a requirements.txt file:**
+```Bash
+pip freeze > requirements.txt
+```
+
+**Install packages from requirements.txt:**
+```Bash
+pip install -r requirements.txt
+```
 ---
 
 ### Virtual Environments in Anaconda:
@@ -61,6 +94,11 @@ This process ensures that you have an exact replica of your development environm
 ---
 
 ### Install Playwright:
+
+```Bash
+pip install pytest
+```
+
 **Install the Pytest plugin:**
 
 ```Bash
@@ -143,6 +181,23 @@ The playwright_config.py file, contains configuration settings for Playwright te
 config = {
     "base_url": "https://robbertchampagne.com/",
 }
+```
+
+**Use Codegen:**
+```Bash
+playwright codegen robbertchampagne.com/
+```
+
+**Run on mobile:**
+```Bash
+pytest -s tests/test_links.py --device="iPhone 13"
+```
+Or add `--device="iPhone 13"` inside the `pytest.ini` file.
+
+**Run just one test:**
+Using the -k option to run just one test(function).
+```Bash
+pytest -k test_check_responsum_project_link -s tests/test_links.py
 ```
 
 ---

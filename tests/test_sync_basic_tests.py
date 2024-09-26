@@ -1,10 +1,7 @@
 # pytest tests/test_sync_basic_tests.py
 
-import pytest
 from playwright.sync_api import Page, expect
-from config import playwright_config
-from pom.main_page import MainPage
-    
+
 def test_to_contain_text(navigate_to_main_page):
     expect(navigate_to_main_page.heading).to_contain_text("Hello I'm Robbert")
     expect(navigate_to_main_page.responsumProject).to_contain_text("Responsum T&M A software")

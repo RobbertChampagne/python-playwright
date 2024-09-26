@@ -2,11 +2,8 @@
 # pytest tests/helpers/take_screenshot.py
 # pytest -s tests/test_screenshots.py
 
-import pytest
-from pom.main_page import MainPage
 import cv2
 import numpy as np
-import os
 
 # Define your image paths (replace with actual paths)
 image1_path = "screenshots/base_screenshots/navbar.png"  # Path to your reference screenshot
