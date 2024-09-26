@@ -194,10 +194,20 @@ pytest -s tests/test_links.py --device="iPhone 13"
 ```
 Or add `--device="iPhone 13"` inside the `pytest.ini` file.
 
-**Run just one test:**
+**Run just one test:**<br>
 Using the -k option to run just one test(function).
 ```Bash
 pytest -k test_check_responsum_project_link -s tests/test_links.py
+```
+
+**Run tests in parallel:**<br>
+Using the -k option to run just one test(function).
+```Bash
+pip install pytest-xdist
+```
+Use the -n option followed by the number of parallel workers you want to use.
+```Bash
+pytest -n 6 -s tests/test_webUIBehavior.py
 ```
 
 ---
@@ -210,14 +220,13 @@ To compare screenshots in Python, especially in the context of Playwright tests 
 pip install opencv-python
 ```
 
-**Step 2: Save a Screenshot**
+**Step 2: Save a Screenshot**<br>
 First run the `python-playwright\tests\helpers\take_screenshot.py` file to take the base screenshot. (this can be saved for longer use)
 ```Bash
 pytest tests/helpers/take_screenshot.py
 ```
 
-**Step 3: Run the test**
-
+**Step 3: Run the test**<br>
 - Take a screenshot of the current state of the main page/other element.
 - Load the images. 
 
