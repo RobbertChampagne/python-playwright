@@ -3,7 +3,7 @@
 # pytest tests/test_links.py --device="Galaxy S9+"
 # pytest tests/test_links.py::test_check_footer_link_icons8 --device="Galaxy S9+"
 
-from playwright.sync_api import Page, expect
+from playwright.sync_api import expect
 import pytest
 from config.loggingSetup import setup_logging
 import logging
@@ -13,7 +13,7 @@ from config.utils import save_trace
 # Setup logging configuration
 logger = logging.getLogger("Links")
 
-def test_domain_check(page_context: Page):
+def test_domain_check(page_context):
     try:
         # Unpack the page and context from the fixture
         main_page, context = page_context
@@ -30,7 +30,7 @@ def test_domain_check(page_context: Page):
         save_trace(context, trace_dir_name, trace_name)
         
         # Log the location of the trace file
-        logger.info(f"Open trace: playwright show-trace tests/playwright/traces/{trace_dir_name}/{trace_name}")
+        logger.info(f"Open trace: playwright show-trace traces/{trace_dir_name}/{trace_name}")
 
 '''
 def test_subdomain_check(main_page):
@@ -77,16 +77,32 @@ def test_check_footer_link_github(main_page):
     page2 = popup_info.value
     url = page2.url
     assert url == 'https://github.com/RobbertChampagne'
-
-def test_check_footer_link_icons8(main_page, device):
+'''
+def test_check_footer_link_icons8(page_context, pytestconfig):
+    device = pytestconfig.getoption("--device")
     if device == "Galaxy S9+":
         pytest.skip("Skipping test for Galaxy S9+")
-    with main_page.page.expect_popup() as popup_info:
-        main_page.icons8Link.click()
-    page2 = popup_info.value
-    url = page2.url
-    assert url == 'https://icons8.com/'
 
+    try:
+        # Unpack the page and context from the fixture
+        main_page, context = page_context
+        
+        with main_page.page.expect_popup() as popup_info:
+            main_page.icons8Link.click()
+        page2 = popup_info.value
+        url = page2.url
+        assert url == 'https://icons8.com/'
+        
+    finally:
+        # Stop tracing and save it to a file
+        trace_name = 'icons8Link.zip'
+        trace_dir_name = 'links'
+        save_trace(context, trace_dir_name, trace_name)
+        
+        # Log the location of the trace file
+        logger.info(f"Open trace: playwright show-trace traces/{trace_dir_name}/{trace_name}")
+
+'''
 def test_check_brightest_link(main_page):
     with main_page.page.expect_popup() as popup_info:
         main_page.brightestLink.click()
