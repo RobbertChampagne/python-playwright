@@ -2,16 +2,9 @@
 
 # Python-playwright
 
-This repository provides a comprehensive toolkit for automating web interactions and visual regression testing using Playwright and Python. It includes scripts and configurations for setting up virtual environments, installing necessary dependencies, and running tests with both synchronous and asynchronous APIs.
-
-### Features
-- **Virtual Environment Setup**: Instructions for creating and managing environments.
-- **Playwright Installation**: Steps to install Playwright and its dependencies.
-- **Sync vs Async APIs**: Detailed explanation of synchronous and asynchronous Playwright APIs.
-- **Project Configuration**: Sample configurations for pytest and Playwright.
-- **Screenshot Comparison**: Tools for capturing and comparing screenshots using OpenCV.
-
-Follow the detailed steps in this README to set up and use the tools provided in this repository.
+This is a basic setup for testing my Portfolio website.<br>
+For more details check:<br> 
+https://github.com/RobbertChampagne/python-testing-framework
 
 ---
 
@@ -46,71 +39,9 @@ pip freeze > requirements.txt
 ```Bash
 pip install -r requirements.txt
 ```
----
-
-### Virtual Environments in Anaconda:
-Create a New Anaconda Environment:
-```Bash
-conda create --name python-playwrightenv python=3.11
-```
- To **activate** this environment, use:
-```Bash
-conda activate python-playwrightenv
-```
-or
-```Bash
-conda activate "C:\Program Files\Anaconda\envs\python-playwrightenv"
-```
-To **deactivate** an active environment, use
-```Bash
-conda deactivate
-```
-Example of the cmd:
-```Bash
-(python-playwrightenv) C:\...\Desktop\github\pytest>
-```
-
-To effectively recreate the environment with the correct dependencies on another device, you would typically use an `environment.yml`.<br>
-Here's how you can create an `environment.yml` file and use it to recreate the environment on another device:
-
-1. **Export Your Environment:**
-    - First, ensure your Conda environment (`python-playwrightenv`) is activated.
-    - Export your environment to an `environment.yml` file:
-
-```Bash
-conda env export > environment.yml
-```
-This file includes all the necessary information about the environment, including the name, channels from where packages are fetched, and the list of packages with their versions.
-
-2. **Recreate the Environment on Another Device:**
-    - Transfer the `environment.yml` file to the other device where you want to recreate the environment.
-    - Use the following command to create an environment from the `environment.yml` file:
-
-```Bash
-conda env create -f environment.yml
-```
-This process ensures that you have an exact replica of your development environment on another device, including all dependencies with their correct versions.
 
 ---
 
-### Install Playwright:
-
-```Bash
-pip install pytest
-```
-
-**Install the Pytest plugin:**
-
-```Bash
-pip install pytest-playwright
-```
-
-**Install the required browsers:**
-```Bash
-playwright install
-```
-
----
 
 ### sync VS async:
 Playwright provides two API variations to accommodate different programming styles and project requirements: <br>

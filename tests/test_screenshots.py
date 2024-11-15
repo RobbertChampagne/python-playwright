@@ -14,9 +14,9 @@ def take_screenshot(main_page):
     main_page.navbar.screenshot(path=image2_path)
 
 
-def test_compare_images(navigate_to_main_page):
+def test_compare_images(main_page):
     # Take a screenshot of the current state of the main page/other element.
-    take_screenshot(navigate_to_main_page)
+    take_screenshot(main_page)
 
     # Load the images
     image1 = cv2.imread(image1_path)

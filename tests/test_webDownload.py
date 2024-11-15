@@ -1,9 +1,9 @@
 # pytest -s tests/test_webDownload.py
 
-def test_cv_download_on_web(navigate_to_main_page):
+def test_cv_download_on_web(main_page):
     # Start waiting for download before clicking.
-    with navigate_to_main_page.page.expect_event('download') as download_info:
-        navigate_to_main_page.resumeButton.click()
+    with main_page.page.expect_event('download') as download_info:
+        main_page.resumeButton.click()
     download = download_info.value
 
     # Wait for the download process to complete and save the downloaded file somewhere.

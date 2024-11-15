@@ -1,12 +1,12 @@
 # pytest -s tests/test_mobileDownload.py --device="iPhone 13"
 
-def test_cv_download_on_mobile(navigate_to_main_page):
+def test_cv_download_on_mobile(main_page):
     # Open the menu on mobile
-    navigate_to_main_page.mobileHamburgerMenuButton.click()
+    main_page.mobileHamburgerMenuButton.click()
 
     # Start waiting for download before clicking.
-    with navigate_to_main_page.page.expect_event('download') as download_info:
-        navigate_to_main_page.resumeButton.click()
+    with main_page.page.expect_event('download') as download_info:
+        main_page.resumeButton.click()
     download = download_info.value
 
     # Wait for the download process to complete and save the downloaded file somewhere.
