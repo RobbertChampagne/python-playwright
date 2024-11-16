@@ -3,7 +3,7 @@
 # Python-playwright
 
 This is a basic setup for testing my Portfolio website.<br>
-For more details check:<br> 
+For more info on **Pytest** or **Playwright**, check out:<br> 
 https://github.com/RobbertChampagne/python-testing-framework
 
 ---
@@ -40,105 +40,36 @@ pip freeze > requirements.txt
 pip install -r requirements.txt
 ```
 
----
+# Running tests
 
-
-### sync VS async:
-Playwright provides two API variations to accommodate different programming styles and project requirements: <br>
-synchronous (sync) and asynchronous (async). <br>
-The choice between using the synchronous or asynchronous API depends on your project's context, especially regarding its concurrency model.
-
-**Synchronous API**<br>
-- **Usage**: The synchronous API is straightforward to use, <br>
-especially in scripts or test frameworks that do not natively support asynchronous execution, like pytest (without additional plugins).<br>
-- **How it works**: It blocks the execution of your script at each operation until the operation completes.<br>
-This means that when you navigate to a page, click a button, or retrieve an element from the page, <br>
-your code waits for the operation to finish before moving to the next line.<br>
-- **Test Frameworks**: It's commonly used with pytest for testing because pytest's standard operation is synchronous.<br>
-However, pytest can run asynchronous code with the help of plugins like pytest-asyncio.
-
-**Asynchronous API**<br>
-- **Usage**: The asynchronous API is designed for use in asynchronous environments,<br>
-particularly when working with Python's asyncio library. <br>
-It's beneficial in scenarios where you want to perform non-blocking operations or handle multiple I/O-bound tasks concurrently.<br>
-- **How it works**: It allows your code to be non-blocking and perform other tasks while waiting for an operation to complete. <br>
-This is achieved using the async and await syntax in Python, <br>
-which enables the efficient management of I/O-bound and high-level structured network code.<br>
-- **Test Frameworks**: For testing asynchronous code, you would typically use pytest with an async plugin like pytest-asyncio,<br> which allows pytest to run async test functions.
-
-**Key Differences**
-- **Concurrency Model**: The sync API is blocking and runs operations sequentially, <br>
-while the async API is non-blocking and can run operations concurrently, <br>
-making it more efficient for I/O-bound tasks.<br>
-- **Syntax**: Sync API uses regular function calls, <br>
-while async API requires functions to be awaited within an async function.<br>
-- **Compatibility**: Sync API is simpler to use with frameworks that do not natively support async/await, <br>
-whereas the async API is preferable in modern Python projects that leverage asyncio for concurrency.
-
----
-
-### Project setup
-
-`\pytest.ini`<br>
-The pytest.ini file serves as a configuration file for pytest, allowing you to set default options for your test runs. <br> When pytest runs, it automatically reads options from the pytest.ini file,<br> so any options specified there apply to all test runs without needing to be explicitly included in the command line each time.
-```Python
-[pytest]
-addopts =
-    --html=report.html
-    --browser=firefox
-    --headed
-    --tracing on
-```
-
-`\tests\conftest.py`<br>
-The conftest.py file is a special pytest module that contains fixture functions, hooks, and other configurations that apply to multiple test files.<br> Pytest automatically recognizes this file and applies its contents to the tests in the same directory and subdirectories.
-```Python
-import pytest
-from playwright.sync_api import Page
-from pom.main_page import MainPage
-
-# scope='session' means that the fixture is called once per test session.
-# If you don't specify a scope, the fixture will be called once per test function.
-@pytest.fixture(scope="function")
-def navigate_to_main_page(page: Page):
-    main_page = MainPage(page)
-    main_page.navigate()
-    yield main_page  # This allows the test to use the main_page object
-```
-
-`\config\playwright_config.py`<br>
-The playwright_config.py file, contains configuration settings for Playwright tests.<br>
-```Python
-config = {
-    "base_url": "https://robbertchampagne.com/",
-}
-```
-
-**Use Codegen:**
+Running all tests in a file:
 ```Bash
-playwright codegen robbertchampagne.com/
+pytest tests/test_links.py
 ```
 
-**Run on mobile:**
+Running a specific tests in a file:
 ```Bash
-pytest -s tests/test_links.py --device="iPhone 13"
-```
-Or add `--device="iPhone 13"` inside the `pytest.ini` file.
-
-**Run just one test:**<br>
-Using the -k option to run just one test(function).
-```Bash
-pytest -k test_check_responsum_project_link -s tests/test_links.py
+pytest tests/test_links.py::test_check_brightest_link
 ```
 
-**Run tests in parallel:**<br>
-Using the -k option to run just one test(function).
+Running mobile emulation:
 ```Bash
-pip install pytest-xdist
+pytest tests/test_links.py --device="Galaxy S9+"
 ```
-Use the -n option followed by the number of parallel workers you want to use.
+
+Running tests on a browser other than the one specified in the `pytest.ini` file:
 ```Bash
-pytest -n 6 -s tests/test_webUIBehavior.py
+pytest tests/test_links.py --browser=webkit  
+```
+
+Codegen:
+```Bash
+playwright codegen https://robbertchampagne.com/
+```
+
+Trace viewer:
+```Bash
+playwright show-trace traces/webUIBehavior/test_click_navbar_link_and_check_scroll_projectsLinkNavbar.zip
 ```
 
 ---
@@ -220,5 +151,3 @@ The `thresh_diff` image is saved to the specified path, allowing you to visually
 - **Convert to Grayscale:** Simplifies the image to a single channel for easier processing.
 - **Apply Threshold:** Converts the grayscale difference to a binary image, making differences more distinct.
 - **Save the Image:** Stores the binary difference image for later inspection.<br>
-
-This process effectively highlights and saves the differences between two images, making it easier to identify changes or discrepancies.
