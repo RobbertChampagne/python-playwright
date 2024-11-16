@@ -1,58 +1,95 @@
 # pytest -n 6 -s tests/test_webUIBehavior.py
+# pytest tests/test_webUIBehavior.py::test_click_navbar_link_and_check_scroll
 
-def test_click_projects_link_in_navbar_and_check_scroll(main_page):
-    main_page.projectsLinkNavbar.click()
-    # Wait for scroll to finish
-    main_page.page.wait_for_timeout(1000)
-    # Check if the specific text is visible in the viewport
-    text_visible = main_page.page.is_visible('text=Check out some of my QA')
-    assert text_visible
+import pytest
+import logging
+from config.utils import save_trace
 
-def test_click_skills_link_in_navbar_and_check_scroll(main_page):
-    main_page.skillsLinkNavbar.click()
-    # Wait for scroll to finish
-    main_page.page.wait_for_timeout(1000)
-    # Check if the specific text is visible in the viewport
-    text_visible = main_page.page.is_visible('text=Always a Student, Never a Master')
-    assert text_visible
+# Setup logging configuration
+logger = logging.getLogger("WebUIBehavior")
 
-def test_click_contact_link_in_navbar_and_check_scroll(main_page):
-    main_page.contactLinkNavbar.click()
-    # Wait for scroll to finish
-    main_page.page.wait_for_timeout(1000)
-    # Check if the specific text is visible in the viewport
-    text_visible = main_page.page.is_visible('text=How can I help you?')
-    assert text_visible
-
-def test_scroll_down_then_click_logo_and_check_scroll_back_up(main_page):
-    main_page.contactLinkNavbar.click()
+def click_link(main_page, link):
+    # Dynamically access the link attribute
+    # Will replace: main_page.skillsLinkNavbar.click()
+    getattr(main_page, link).click()  
     # Wait for scroll to finish
     main_page.page.wait_for_timeout(1000)
 
-    main_page.logo.click()
-    # Wait for scroll to finish
-    main_page.page.wait_for_timeout(1000)
-    # Check if the specific text is visible in the viewport
-    text_visible = main_page.page.is_visible('text=Ensuring Software Quality')
-    assert text_visible
+@pytest.mark.parametrize("link, text", [
+    ("projectsLinkNavbar", "Check out some of my QA"),
+    ("skillsLinkNavbar", "Always a Student, Never a Master"),
+    ("contactLinkNavbar", "How can I help you?")
+])
+def test_click_navbar_link_and_check_scroll(page_context, link, text):
+    try:
+        main_page, context = page_context
+        click_link(main_page, link)
+        # Check if the specific text is visible in the viewport
+        text_visible = main_page.page.is_visible(f'text={text}')
+        assert text_visible
+    finally:
+        # Stop tracing and save it to a file
+        trace_name = f'test_click_navbar_link_and_check_scroll_{link}.zip'
+        trace_dir_name = 'webUIBehavior'
+        save_trace(context, trace_dir_name, trace_name)
+        
+        # Log the location of the trace file
+        logger.info(f"Open trace: playwright show-trace traces/{trace_dir_name}/{trace_name}")
 
-def test_click_connect_with_me_button_and_check_scroll(main_page):
-    main_page.connectWithMeButton.click()
-    # Wait for scroll to finish
-    main_page.page.wait_for_timeout(1000)
-    # Check if the specific text is visible in the viewport
-    text_visible = main_page.page.is_visible('text=How can I help you?')
-    assert text_visible
-
-def test_check_text_visible_when_hover_project(main_page):
-    main_page.mediahuisProject.hover()
-    mediahuis_project_text = main_page.mediahuisProjectText.inner_text()
-    assert 'Mediahuis' in mediahuis_project_text
-
-    main_page.iOProject.hover()
-    io_project_text = main_page.iOProjectText.inner_text()
-    assert 'iO' in io_project_text
-
-    main_page.responsumProject.hover()
-    responsum_project_text = main_page.responsumProjectText.inner_text()
-    assert 'Responsum T&M' in responsum_project_text
+def test_scroll_back_up_after_logo_click(page_context):
+    try:
+        main_page, context = page_context
+        click_link(main_page, "contactLinkNavbar")
+        main_page.logo.click()
+        # Wait for scroll to finish
+        main_page.page.wait_for_timeout(1000)
+        # Check if the specific text is visible in the viewport
+        text_visible = main_page.page.is_visible('text=Ensuring Software Quality')
+        assert text_visible
+    finally:
+        # Stop tracing and save it to a file
+        trace_name = 'scroll_back_up_after_logo_click.zip'
+        trace_dir_name = 'webUIBehavior'
+        save_trace(context, trace_dir_name, trace_name)
+        
+        # Log the location of the trace file
+        logger.info(f"Open trace: playwright show-trace traces/{trace_dir_name}/{trace_name}")
+    
+def test_click_connect_with_me_button_and_check_scroll(page_context):
+    try:
+        main_page, context = page_context
+        main_page.connectWithMeButton.click()
+        # Wait for scroll to finish
+        main_page.page.wait_for_timeout(1000)
+        # Check if the specific text is visible in the viewport
+        text_visible = main_page.page.is_visible('text=How can I help you?')
+        assert text_visible
+    finally:
+        # Stop tracing and save it to a file
+        trace_name = 'click_connect_with_me_button_and_check_scroll.zip'
+        trace_dir_name = 'webUIBehavior'
+        save_trace(context, trace_dir_name, trace_name)
+        
+        # Log the location of the trace file
+        logger.info(f"Open trace: playwright show-trace traces/{trace_dir_name}/{trace_name}")
+        
+def test_check_text_visible_when_hover_project(page_context):
+    try:
+        main_page, context = page_context
+        projects = [
+            (main_page.mediahuisProject, main_page.mediahuisProjectText, 'Mediahuis'),
+            (main_page.iOProject, main_page.iOProjectText, 'iO'),
+            (main_page.responsumProject, main_page.responsumProjectText, 'Responsum T&M')
+        ]
+        for project, project_text, expected_text in projects:
+            project.hover()
+            text = project_text.inner_text()
+            assert expected_text in text
+    finally:
+        # Stop tracing and save it to a file
+        trace_name = 'check_text_visible_when_hover_project.zip'
+        trace_dir_name = 'webUIBehavior'
+        save_trace(context, trace_dir_name, trace_name)
+        
+        # Log the location of the trace file
+        logger.info(f"Open trace: playwright show-trace traces/{trace_dir_name}/{trace_name}")   
